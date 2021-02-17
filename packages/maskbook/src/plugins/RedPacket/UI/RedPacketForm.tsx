@@ -25,7 +25,6 @@ import { useI18N } from '../../../utils/i18n-next-ui'
 import { EthereumTokenType, EthereumNetwork, ERC20TokenDetailed, EtherTokenDetailed } from '../../../web3/types'
 import { useAccount } from '../../../web3/hooks/useAccount'
 import { useChainId, useChainIdValid } from '../../../web3/hooks/useChainState'
-import { EthereumStatusBar } from '../../../web3/UI/EthereumStatusBar'
 import { TokenAmountPanel } from '../../../web3/UI/TokenAmountPanel'
 import { useConstant } from '../../../web3/hooks/useConstant'
 import { useERC20TokenApproveCallback, ApproveState } from '../../../web3/hooks/useERC20TokenApproveCallback'
@@ -46,9 +45,6 @@ const useStyles = makeStyles((theme) =>
         line: {
             display: 'flex',
             margin: theme.spacing(1),
-        },
-        bar: {
-            padding: theme.spacing(0, 2, 2),
         },
         input: {
             flex: 1,
@@ -263,7 +259,6 @@ export function RedPacketForm(props: RedPacketFormProps) {
     if (!token) return null
     return (
         <>
-            <EthereumStatusBar classes={{ root: classes.bar }} />
             <div className={classes.line}>
                 <FormControl className={classes.input} variant="outlined">
                     <InputLabel>{t('plugin_red_packet_split_mode')}</InputLabel>
