@@ -188,19 +188,6 @@ export function Trader(props: TraderProps) {
     )
     //#endregion
 
-    //#region refresh pairs
-    const [, , resetTimeout] = useTimeoutFn(() => {
-        onRefreshClick()
-    }, 30 /* seconds */ * 1000 /* milliseconds */)
-
-    const onRefreshClick = useCallback(async () => {
-        if (!trade) return
-        await Services.Ethereum.updateChainState()
-        asyncTradeComputed.retry()
-        resetTimeout()
-    }, [trade, resetTimeout])
-    //#endregion
-
     //#region approve
     const { approveToken, approveAmount, approveAddress } = useTradeApproveComputed(trade, provider, inputToken)
     const [approveState, , approveCallback] = useERC20TokenApproveCallback(
@@ -245,11 +232,11 @@ export function Trader(props: TraderProps) {
     }, 30 /* seconds */ * 1000 /* milliseconds */)
 
     const onRefreshClick = useCallback(async () => {
-        if (approveState === ApproveState.PENDING) return
+        if (!trade || approveState === ApproveState.PENDING) return
         await Services.Ethereum.updateChainState()
         asyncTradeComputed.retry()
         resetTimeout()
-    }, [approveState, asyncTradeComputed.retry, resetTimeout])
+    }, [trade, approveState, asyncTradeComputed.retry, resetTimeout])
     //#endregion
 
     //#region remote controlled transaction dialog
